@@ -1,0 +1,6 @@
+{
+    "env": {
+        "MONGO_ATLAS_PW": "mongodb2021",
+        "JWT_KEY": "mysecretkey"
+    }
+}
