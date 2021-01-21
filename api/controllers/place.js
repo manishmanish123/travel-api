@@ -4,17 +4,18 @@ const Place = require("../models/place");
 //get all places
 exports.get_all_place = (req, res, next) => {
     Place.find()
-    .select("_id name short_name thumbnail")
+    .select("_id name short_address picture")
     .exec()
     .then(docs => {
       const response = {
         status: 200,
         places: docs.map(doc => {
           return {
+            test_url: "http://localhost:3000/place/" + doc._id,
             id: doc._id,
             name: doc.name,
             short_address: doc.short_address,
-            thumbnail: doc.thumbnail,
+            picture: doc.picture,
           };
         })
       };
@@ -35,19 +36,26 @@ exports.create_place = (req, res, next) => {
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     short_address: req.body.short_address,
-    picture: req.file.path,
+    picture: req.file.filename,
+    city: req.body.city,
+    country: req.body.country,
+    about: req.body.about,
   });
   place
     .save()
     .then(result => {
       console.log(result);
       res.status(201).json({
+        test_url: "http://localhost:3000/place/" + result._id,
         message: "Place created successfully",
         createdPlace: {
           _id: result._id,
           name: result.name,
           short_address: result.short_address,
-          thumbnail: result.thumbnail,
+          picture: result.picture,
+          city: result.city,
+          country: result.country,
+          about: result.about,
         }
       });
     })
@@ -63,16 +71,34 @@ exports.create_place = (req, res, next) => {
 exports.get_place_details = (req, res, next) => {
   const id = req.params.placeId;
   Place.findById(id)
-    .select("_id name address thumbnail about")
     .exec()
     .then(doc => {
-      console.log("From database", doc);
       if (doc) {
-        res.status(200).json(doc);
+        res.status(200).json({
+          status: 200,
+          data: {
+            id: doc._id,
+            name: doc.name,
+            short_address: doc.short_address,
+            address: doc.address,
+            city: doc.city,
+            country: doc.country,
+            about: doc.about,
+            phone: doc.phone,
+            website: doc.website,
+            thumbnail: doc.thumbnail,
+            picture: doc.picture,
+            photos: doc.photos,
+            videos: doc.videos,
+          }
+        });
       } else {
         res
           .status(404)
-          .json({ message: "No valid entry found for provided ID" });
+          .json({
+            status: 404, 
+            message: "No place found for this ID"
+          });
       }
     })
     .catch(err => {
