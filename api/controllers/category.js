@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
+const Category = require("../models/category");
 const Place = require("../models/place");
 
 //get all places
-exports.get_all_place = (req, res, next) => {
+exports.get_all_category = (req, res, next) => {
     Place.find()
-    .select("_id name short_address picture")
     .exec()
     .then(docs => {
       const response = {
