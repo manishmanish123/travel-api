@@ -12,7 +12,8 @@ mongoose.connect(
     "mongodb+srv://manish:" + process.env.MONGO_ATLAS_PW + "@cluster0.rq0lx.mongodb.net/test?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    autoIndex: false,
   }
 );
 mongoose.Promise = global.Promise;
@@ -39,7 +40,7 @@ app.use((req, res, next) => {
 app.use("/place", placeRoute);
 
 app.use((req, res, next) => {
-  const error = new Error("Not found");
+  const error = new Error("Url not found");
   error.status = 404;
   next(error);
 });

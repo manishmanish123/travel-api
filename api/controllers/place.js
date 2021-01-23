@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const Place = require("../models/place");
 
+
+// const [user, post] = await Promise.all([user.save(), post.save()])
+
 //get all places
 exports.get_all_place = (req, res, next) => {
     Place.find()
@@ -11,7 +14,8 @@ exports.get_all_place = (req, res, next) => {
         status: 200,
         places: docs.map(doc => {
           return {
-            test_url: "http://localhost:3000/place/" + doc._id,
+            // test_url: "http://localhost:3000/place/" + doc._id,
+            // test_picture: "http://localhost:3000/uploads/" + doc.picture,
             id: doc._id,
             name: doc.name,
             short_address: doc.short_address,
@@ -26,6 +30,46 @@ exports.get_all_place = (req, res, next) => {
       res.status(500).json({
         error: err
       });
+    });
+};
+
+//get details of a place by id
+exports.get_place_details = (req, res, next) => {
+  const id = req.params.placeId;
+  Place.findById(id)
+    .exec()
+    .then(doc => {
+      if (doc) {
+        res.status(200).json({
+          status: 200,
+          data: {
+            id: doc._id,
+            name: doc.name,
+            short_address: doc.short_address,
+            address: doc.address,
+            city: doc.city,
+            country: doc.country,
+            about: doc.about,
+            phone: doc.phone,
+            website: doc.website,
+            thumbnail: doc.thumbnail,
+            picture: doc.picture,
+            photos: doc.photos,
+            videos: doc.videos,
+          }
+        });
+      } else {
+        res
+          .status(404)
+          .json({
+            status: 404, 
+            message: "No place found for this ID"
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
     });
 };
 
@@ -63,47 +107,6 @@ exports.create_place = (req, res, next) => {
       res.status(500).json({
         error: err
       });
-    });
-};
-
-//get details of a place by id
-exports.get_place_details = (req, res, next) => {
-  const id = req.params.placeId;
-  Place.findById(id)
-    .exec()
-    .then(doc => {
-      if (doc) {
-        res.status(200).json({
-          status: 200,
-          data: {
-            test_url: "http://localhost:3000/place",
-            id: doc._id,
-            name: doc.name,
-            short_address: doc.short_address,
-            address: doc.address,
-            city: doc.city,
-            country: doc.country,
-            about: doc.about,
-            phone: doc.phone,
-            website: doc.website,
-            thumbnail: doc.thumbnail,
-            picture: doc.picture,
-            photos: doc.photos,
-            videos: doc.videos,
-          }
-        });
-      } else {
-        res
-          .status(404)
-          .json({
-            status: 404, 
-            message: "No place found for this ID"
-          });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ error: err });
     });
 };
 
