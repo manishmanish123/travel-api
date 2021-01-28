@@ -7,7 +7,11 @@ const placeSchema = mongoose.Schema({
     address: {
         address: { type: String },
         short_address: { type: String },
-        zip: { type: String },
+        zipCode: { type: String },
+        location: {
+            latitude: { type: String },
+            longitude: { type: String },
+        },
         city: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'City', index: true },      //city ID
             name: { type: String },
@@ -39,8 +43,8 @@ const placeSchema = mongoose.Schema({
         ratingCount: Number,
         topReviews: [{          // some top reviews about this place
             feedback: {
-                rating: Number,
-                review: String,
+                rating: { type: Number },
+                review: { type: String },
                 date: { type: mongoose.Mongoose.type.date },
             },
             user: {

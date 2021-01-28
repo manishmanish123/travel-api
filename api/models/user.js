@@ -4,15 +4,30 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, index: true },
-    email: { 
-        type: String, 
-        required: true, 
-        unique: true, 
-        match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-        phone: String,
-        address: String,
+    contact: {
+        email: { 
+            type: String, 
+            required: true, 
+            unique: true, 
+            match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+            phone: String,
+            address: String,
+            index: true,
+        },
+        phone: { type: String },
     },
-    phone: { type: String },
+    address: {
+        address: { type: String },
+        short_address: { type: String },
+        zipCode: { type: String },
+        location: {
+            latitude: { type: String },
+            longitude: { type: String },
+        },
+        city: { type: mongoose.Schema.Types.ObjectId, ref: 'City' },    // city ID
+        state: { type: String },
+        country: { type: mongoose.Schema.Types.ObjectId, ref: 'Country' },      //country ID
+    },
     password: { type: String, required: true },
     suggestions: {
         notification: { type: [String] },
@@ -39,7 +54,7 @@ const userSchema = mongoose.Schema({
 
 userSchema.index({  // indexing at schema level
     name: 1,
-    userId: 1
+    "contact.email": 1,
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -6,8 +6,8 @@ const userFeedbackSchema = mongoose.Schema({
     placeId: { type: mongoose.Mongoose.type.ObjectId, required: true, index: true },
     placetype: { type: String },    // eg. place/city/country etc. name of the collection
     feedback: {
-        rating: Number,
-        review: String,
+        rating: { type: Number },
+        review: { type: String },
         date: { type: mongoose.Mongoose.type.date },
     },
     user: {

@@ -30,8 +30,8 @@ const citySchema = mongoose.Schema({
         ratingCount: Number,
         topReviews: [{          // some top reviews about this place
             feedback: {
-                rating: Number,
-                review: String,
+                rating: { type: Number },
+                review: { type: String },
                 date: { type: mongoose.Mongoose.type.date },
             },
             user: {
