@@ -28,6 +28,18 @@ const citySchema = mongoose.Schema({
     userFeedback: {
         avgRating: Number,
         ratingCount: Number,
+        topReviews: [{          // some top reviews about this place
+            feedback: {
+                rating: Number,
+                review: String,
+                date: { type: mongoose.Mongoose.type.date },
+            },
+            user: {
+                id: { type: mongoose.Mongoose.type.ObjectId, ref: 'User' },
+                name: { type: String },
+                userPic: { type: String },
+            },
+        }],
     },
     tags: { type: [String], index: true }, // like boating, surfing(things to do) etc.
 });
