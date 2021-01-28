@@ -4,21 +4,49 @@ const mongoose = require('mongoose');
 const placeSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, index: true },
-    short_address: { type: String },
-    address: { type: String },
-    city: { type: String },     //city ID
-    country: { type: String },      //country ID
-    about: { type: String },
-    phone: { type: String },
-    website: { type: String },
-    thumbnail: { type: String },
-    picture: { type: String },
-    photos: { type: [String] },   //photo(s) name in array type
-    videos: { type: [String] },   //video(s) name in array type
-    tags: { type: [String], index: true },  //indexing tags
+    address: {
+        address: { type: String },
+        short_address: { type: String },
+        zip: { type: String },
+        city: {
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'City', index: true },      //city ID
+            name: { type: String },
+        },
+        state: { type: String },
+        country: {
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'Country', index: true },      //country ID
+            name: { type: String },
+        },
+        continent: { type: String },
+    },
+    about: {
+        description: { type: String },
+        famousFor: { type: String },
+        timings: { type: String },
+    },
+    contact: {
+        phone: { type: String },
+        website: { type: String },
+    },
+    media: {
+        thumbnail: { type: String },
+        picture: { type: String },
+        photos: { type: [String] },   //photo(s) name in array type
+        videos: { type: [String] },   //video(s) name in array type
+    },
+    userFeedback: {
+        avgRating: Number,
+        ratingCount: Number,
+    },
+    tags: { type: [String], index: true }, // like boating, surfing(things to do) etc.
 });
 
-placeSchema.index({ name: 1, tags: 1 });  // indexing at schema level
+placeSchema.index({  // indexing at schema level
+    name: 1,
+    "address.city.id": 1,
+    "address.country.id": 1,
+    tags: 1
+});
 
 // compile our model
 const Place = mongoose.model('Place', placeSchema);

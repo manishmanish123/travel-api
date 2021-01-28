@@ -1,30 +1,28 @@
 const mongoose = require("mongoose");
-const Place = require("../models/place");
+const Country = require("../models/country");
 
 
 // const [user, post] = await Promise.all([user.save(), post.save()])
 
-//get all places
-exports.get_all_place = (req, res, next) => {
-  // const query = Place.find();
+//get all countries
+exports.get_all_country = (req, res, next) => {
+  // const query = Country.find();
   // query.select("_id name short_address picture")
   // query.setOptions({ lean: true });
-  // query.collection(Place.collection);
+  // query.collection(Country.collection);
   // query.exec();
 
-    Place.find()
-    .select("_id name short_address picture").lean()
+    Country.find()
+    .select("_id name about picture").lean()
     .exec()
     .then(docs => {
       const response = {
         status: 200,
-        places: docs.map(doc => {
+        countries: docs.map(doc => {
           return {
-            // test_url: "http://localhost:3000/place/" + doc._id,
-            // test_picture: "http://localhost:3000/uploads/" + doc.picture,
             id: doc._id,
             name: doc.name,
-            short_address: doc.short_address,
+            about: doc.about,
             picture: doc.picture,
           };
         })
@@ -39,10 +37,10 @@ exports.get_all_place = (req, res, next) => {
     });
 };
 
-//get details of a place by id
-exports.get_place_details = (req, res, next) => {
-  const id = req.params.placeId;
-  Place.findById(id)
+//get details of a country by id
+exports.get_country_details = (req, res, next) => {
+  const id = req.params.countryId;
+  Country.findById(id)
     .exec()
     .then(doc => {
       if (doc) {
@@ -51,14 +49,7 @@ exports.get_place_details = (req, res, next) => {
           data: {
             id: doc._id,
             name: doc.name,
-            short_address: doc.short_address,
-            address: doc.address,
-            city: doc.city,
-            country: doc.country,
             about: doc.about,
-            phone: doc.phone,
-            website: doc.website,
-            thumbnail: doc.thumbnail,
             picture: doc.picture,
             photos: doc.photos,
             videos: doc.videos,
@@ -69,7 +60,7 @@ exports.get_place_details = (req, res, next) => {
           .status(404)
           .json({
             status: 404, 
-            message: "No place found for this ID"
+            message: "No country found for this ID"
           });
       }
     })
@@ -79,25 +70,24 @@ exports.get_place_details = (req, res, next) => {
     });
 };
 
-//create place with form details
-exports.create_place = (req, res, next) => {
+//create country with form details
+exports.create_country = (req, res, next) => {
   console.log(req.file)
-  const place = new Place({
+  const country = new Country({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
-    short_address: req.body.short_address,
-    picture: req.file.filename,
-    city: req.body.city,
-    country: req.body.country,
     about: req.body.about,
+    picture: req.file.filename,
+    photos: req.body.photos,
+    videos: req.body.videos,
   });
-  place
+  country
     .save()
     .then(result => {
       console.log(result);
       res.status(201).json({
-        message: "Place created successfully",
-        createdPlace: {
+        message: "Country created successfully",
+        createdCountry: {
           _id: result._id,
           name: result.name,
           short_address: result.short_address,
@@ -116,17 +106,17 @@ exports.create_place = (req, res, next) => {
     });
 };
 
-//delete a place by id
-exports.delete_place = (req, res, next) => {
-  const id = req.params.placeId;
-  // Place.remove().exec();
-  Place.findById(id).exec().then(doc => {
+//delete a country by id
+exports.delete_country = (req, res, next) => {
+  const id = req.params.countryId;
+  // Country.remove().exec();
+  Country.findById(id).exec().then(doc => {
     if(doc){
-      Place.remove({ _id: id })
+      Country.remove({ _id: id })
       .exec()
       .then(result => {
         res.status(200).json({
-          message: "Place deleted",
+          message: "Country deleted",
         });
       })
       .catch(err => {
@@ -139,7 +129,7 @@ exports.delete_place = (req, res, next) => {
     else {
       res
         .status(404)
-        .json({ message: "place not found" });
+        .json({ message: "country not found" });
     }
   })
   .catch(err => {
