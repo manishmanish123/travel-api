@@ -37,7 +37,7 @@ const upload = multer({
 });
 
 
-router.get("/", PlaceController.get_all_place);
+router.get("/", PlaceController.getAllPlace);
 
 router.post("/", upload.single('picture'), PlaceController.create_place);
 

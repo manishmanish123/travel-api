@@ -9,7 +9,7 @@ const cityRoute = require("./api/routes/city");
 const countryRoute = require("./api/routes/country");
 const userRoute = require("./api/routes/user");
 
-const port = 3000
+const port = process.env.PORT || 3003;
 
 mongoose.connect(
     "mongodb+srv://manish:" + process.env.MONGO_ATLAS_PW + "@cluster0.rq0lx.mongodb.net/test?retryWrites=true&w=majority",
