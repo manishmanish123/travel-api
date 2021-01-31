@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
             type: String, 
             required: true, 
             unique: true, 
-            match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+            // match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
             phone: String,
             address: String,
             index: true,
@@ -30,24 +30,27 @@ const userSchema = mongoose.Schema({
     },
     password: { type: String, required: true },
     suggestions: {
-        notification: { type: [String] },
-        settings: {
+        notification: [{
+            message: { type: String },
+            actionUrl: { type: String },
+        }],
+        settings: [{
             name: { type: String },
             value: { type: String },
-        },
+        }],
         places: {
-            recommended: {
-                place: { type: [mongoose.Mongoose.type.ObjectId] },
+            recommended: [{
+                place: { type: [mongoose.Schema.Types.ObjectId] },
                 placetype: { type: String },    // eg. place/city/country etc. name of the collection
-            },
-            nearBy: {
-                place: { type: [mongoose.Mongoose.type.ObjectId] },
+            }],
+            nearBy: [{
+                place: { type: [mongoose.Schema.Types.ObjectId] },
                 placetype: { type: String },    // eg. place/city/country etc. name of the collection
-            },
-            more: {     // user may like to visit these places
-                place: { type: [mongoose.Mongoose.type.ObjectId] },
+            }],
+            more: [{     // user may like to visit these places
+                place: { type: [mongoose.Schema.Types.ObjectId] },
                 placetype: { type: String },    // eg. place/city/country etc. name of the collection
-            },
+            }],
         },
     },
 });

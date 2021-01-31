@@ -32,10 +32,10 @@ const citySchema = mongoose.Schema({
             feedback: {
                 rating: { type: Number },
                 review: { type: String },
-                date: { type: mongoose.Mongoose.type.date },
+                date: { type: mongoose.Schema.Types.Date },
             },
             user: {
-                id: { type: mongoose.Mongoose.type.ObjectId, ref: 'User' },
+                id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
                 name: { type: String },
                 userPic: { type: String },
             },

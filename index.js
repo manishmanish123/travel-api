@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const placeRoute = require("./api/routes/place");
 const cityRoute = require("./api/routes/city");
 const countryRoute = require("./api/routes/country");
+const userRoute = require("./api/routes/user");
 
 const port = 3000
 
@@ -42,6 +43,7 @@ app.use((req, res, next) => {
 app.use("/place", placeRoute);
 app.use("/city", cityRoute);
 app.use("/country", countryRoute);
+app.use("/user", userRoute);
 
 app.use((req, res, next) => {
   const error = new Error("Url not found");
