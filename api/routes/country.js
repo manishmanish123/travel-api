@@ -40,7 +40,7 @@ router.get("/", GetCountryController.getAllCountry);
 router.get("/:countryId", GetCountryController.getCountryDetails);
 
 router.post("/", upload.single('picture'), InsertCountryController.createCountry);
-router.post("/dummy/:total", InsertCountryController.createDummyCountry);     //to insert dummy place(s)
+router.get("/dummy/:total", InsertCountryController.createDummyCountry);     //to insert dummy place(s)
 
 router.delete("/:countryId", DeleteCountryController.deleteCountry);
 

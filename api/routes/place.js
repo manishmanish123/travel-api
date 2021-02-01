@@ -44,7 +44,7 @@ router.get("/", GetPlaceController.getAllPlace);
 router.get("/:placeId", GetPlaceController.getPlaceDetails);
 
 router.post("/", upload.single('picture'), InsertPlaceController.createPlace);
-router.post("/dummy/:total", InsertPlaceController.createDummyPlace);     //to insert dummy place(s)
+router.get("/dummy/:total", InsertPlaceController.createDummyPlace);     //to insert dummy place(s)
 
 router.delete("/:placeId", DeletePlaceController.deletePlace);
 

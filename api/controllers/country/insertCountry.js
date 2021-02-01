@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const CountryCollection = require("../../models/country");
 
+//for random data generation - dev only
+var casual = require('casual');
+
 //create country with form details
 exports.createCountry = (req, res, next) => {
   console.log(req.file)
@@ -40,17 +43,19 @@ exports.createCountry = (req, res, next) => {
 
 //create dummy country(s)
 exports.createDummyCountry = (req, res, next) => {
-  const num = req.params.total;
+    const num = parseInt(req.params.total);
 
-  Promise.all([CountryCollection.deleteMany({})]);        //first delete all country
+    Promise.all([CountryCollection.deleteMany({})]).then(result => {        //first delete all places
 
-  const dummyPlaces = populateDBWithDummyData(num);
-  Promise.all([CountryCollection.insertMany(dummyPlaces)]).then(res => {     //insert dummy data
-      res.status(200).json({
-          "Dummy country(s) created": num
-      });
-  });
-  
+        const dummyCountries = populateDBWithDummyData(num);
+        Promise.all([CountryCollection.insertMany(dummyCountries)]).then(r => {     //insert dummy data
+            res.status(200).json({
+                "Dummy country(s) created": num
+            });
+        });
+    
+    });
+
 }
 
 function populateDBWithDummyData(numberOfItems) {

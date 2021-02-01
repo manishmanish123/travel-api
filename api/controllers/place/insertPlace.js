@@ -46,15 +46,17 @@ exports.createPlace = (req, res, next) => {
 
 //create dummy place(s)
 exports.createDummyPlace = (req, res, next) => {
-    const num = req.params.total;
+    const num = parseInt(req.params.total);
 
-    Promise.all([PlaceCollection.deleteMany({})]);        //first delete all places
+    Promise.all([PlaceCollection.deleteMany({})]).then(result => {        //first delete all places
 
-    const dummyPlaces = populateDBWithDummyData(num);
-    Promise.all([PlaceCollection.insertMany(dummyPlaces)]).then(res => {     //insert dummy data
-        res.status(200).json({
-            "Dummy place(s) created": num
+        const dummyPlaces = populateDBWithDummyData(num);
+        Promise.all([PlaceCollection.insertMany(dummyPlaces)]).then(r => {     //insert dummy data
+            res.status(200).json({
+                "Dummy place(s) created": num
+            });
         });
+    
     });
     
 }
