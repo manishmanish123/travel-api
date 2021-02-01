@@ -53,6 +53,7 @@ exports.createDummyPlace = (req, res, next) => {
         const dummyPlaces = populateDBWithDummyData(num);
         Promise.all([PlaceCollection.insertMany(dummyPlaces)]).then(r => {     //insert dummy data
             res.status(200).json({
+                status: 200,
                 "Dummy place(s) created": num
             });
         });

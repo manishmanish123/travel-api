@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const multer = require('multer');
-// const checkAuth = require('../middleware/check-auth');
-const CityController = require('../controllers/city');
 
-// const UserController = require('../controllers/user');
-// const checkAuth = require('../middleware/check-auth');
+const GetCityController = require('../controllers/city/getCity');
+const InsertCityController = require('../controllers/city/insertCity');
+const DeleteCityController = require('../controllers/city/deleteCity');
 
 //file storage constrain
 const storage = multer.diskStorage({
@@ -37,12 +36,12 @@ const upload = multer({
 });
 
 
-router.get("/", CityController.get_all_city);
+router.get("/", GetCityController.getAllCity);
+router.get("/:cityId", GetCityController.getCityDetails);
 
-router.post("/", upload.single('picture'), CityController.create_city);
+router.post("/", upload.single('picture'), InsertCityController.createCity);
+router.get("/dummy/:total", InsertCityController.createDummyCity);     //to insert dummy city(s)
 
-router.get("/:cityId", CityController.get_city_details);
-
-router.delete("/:cityId", CityController.delete_city);
+router.delete("/:cityId", DeleteCityController.deleteCity);
 
 module.exports = router;

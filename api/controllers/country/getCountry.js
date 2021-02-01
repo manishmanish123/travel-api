@@ -2,14 +2,9 @@ const CountryCollection = require("../../models/country");
 
 //get all countries
 exports.getAllCountry = (req, res, next) => {
-  // const query = Country.find();
-  // query.select("_id name short_address picture")
-  // query.setOptions({ lean: true });
-  // query.collection(Country.collection);
-  // query.exec();
-
     CountryCollection.find()
     .select("_id name about picture").lean()
+    .limit(5)
     .exec()
     .then(countries => {
       const response = {
