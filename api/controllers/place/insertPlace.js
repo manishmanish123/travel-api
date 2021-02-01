@@ -1,100 +1,14 @@
 const mongoose = require("mongoose");
-const Place = require("../models/place");
+const Place = require("../../models/place");
 
 //for random data generation - dev only
 var casual = require('casual');
 
 // const [user, post] = await Promise.all([user.save(), post.save()])
 
-//get all places
-exports.getAllPlace = (req, res, next) => {
-  // const query = Place.find();
-  // query.select("_id name short_address picture")
-  // query.setOptions({ lean: true });
-  // query.collection(Place.collection);
-  // query.exec();
-
-    // const num = 1;
-
-    // // Promise.all([Place.deleteMany({})]);
-    // const docs = populateDBWithDummyData(num);
-    
-    // // console.log(docs);
-    // Promise.all([Place.insertMany(docs)]);
-    // res.status(200).json({
-    //     "Place created": num
-    // });
-
-    Place.find()
-    .select("_id name short_address picture").lean()
-    .limit(1)
-    .exec()
-    .then(docs => {
-      const response = {
-        status: 200,
-        places: docs.map(doc => {
-          return {
-            // test_url: "http://localhost:3000/place/" + doc._id,
-            // test_picture: "http://localhost:3000/uploads/" + doc.picture,
-            id: doc._id,
-            name: doc.name,
-            short_address: doc.short_address,
-            picture: doc.picture,
-          };
-        })
-      };
-      res.status(200).json(response);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
-};
-
-//get details of a place by id
-exports.get_place_details = (req, res, next) => {
-  const id = req.params.placeId;
-  Place.findById(id)
-    .exec()
-    .then(doc => {
-      if (doc) {
-        res.status(200).json({
-          status: 200,
-          data: {
-            id: doc._id,
-            name: doc.name,
-            short_address: doc.short_address,
-            address: doc.address,
-            city: doc.city,
-            country: doc.country,
-            about: doc.about,
-            phone: doc.phone,
-            website: doc.website,
-            thumbnail: doc.thumbnail,
-            picture: doc.picture,
-            photos: doc.photos,
-            videos: doc.videos,
-          }
-        });
-      } else {
-        res
-          .status(404)
-          .json({
-            status: 404, 
-            message: "No place found for this ID"
-          });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ error: err });
-    });
-};
 
 //create place with form details
-exports.create_place = (req, res, next) => {
+exports.createPlace = (req, res, next) => {
   console.log(req.file)
   const place = new Place({
     _id: new mongoose.Types.ObjectId(),
@@ -130,38 +44,20 @@ exports.create_place = (req, res, next) => {
     });
 };
 
-//delete a place by id
-exports.delete_place = (req, res, next) => {
-  const id = req.params.placeId;
-  // Place.remove().exec();
-  Place.findById(id).exec().then(doc => {
-    if(doc){
-      Place.remove({ _id: id })
-      .exec()
-      .then(result => {
-        res.status(200).json({
-          message: "Place deleted",
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
-    }
-    else {
-      res
-        .status(404)
-        .json({ message: "place not found" });
-    }
-  })
-  .catch(err => {
-    console.log(err);
-    res.status(500).json({ error: err });
-  });
-};
+//create dummy place(s)
+exports.createDummyPlace = (req, res, next) => {
+    const num = req.params.total;
 
+    Promise.all([Place.deleteMany({})]);        //first delete all places
+
+    const docs = populateDBWithDummyData(num);
+    Promise.all([Place.insertMany(docs)]).then(res => {     //insert dummy data
+        res.status(200).json({
+            "Dummy place(s) created": num
+        });
+    });
+    
+}
 
 function populateDBWithDummyData(numberOfItems) {
   const docs = [...new Array(numberOfItems)].map(_ => ({
@@ -192,7 +88,7 @@ function populateDBWithDummyData(numberOfItems) {
       },
       contact: {
           phone: casual.phone,
-          website: casual.website,
+          website: casual.url,
       },
       media: {
         thumbnail: "1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg",

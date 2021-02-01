@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router();
 const multer = require('multer');
 // const checkAuth = require('../middleware/check-auth');
-const PlaceController = require('../controllers/place');
+
+const GetPlaceController = require('../controllers/place/getPlace');
+const InsertPlaceController = require('../controllers/place/insertPlace');
+const DeletePlaceController = require('../controllers/place/deletePlace');
 
 // const UserController = require('../controllers/user');
 // const checkAuth = require('../middleware/check-auth');
@@ -37,12 +40,12 @@ const upload = multer({
 });
 
 
-router.get("/", PlaceController.getAllPlace);
+router.get("/", GetPlaceController.getAllPlace);
+router.get("/:placeId", GetPlaceController.getPlaceDetails);
 
-router.post("/", upload.single('picture'), PlaceController.create_place);
+router.post("/", upload.single('picture'), InsertPlaceController.createPlace);
+router.post("/dummy/:total", InsertPlaceController.createDummyPlace);     //to insert dummy place(s)
 
-router.get("/:placeId", PlaceController.get_place_details);
-
-router.delete("/:placeId", PlaceController.delete_place);
+router.delete("/:placeId", DeletePlaceController.deletePlace);
 
 module.exports = router;
