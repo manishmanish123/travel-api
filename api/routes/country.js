@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const multer = require('multer');
-// const checkAuth = require('../middleware/check-auth');
-const CountryController = require('../controllers/country');
 
-// const UserController = require('../controllers/user');
-// const checkAuth = require('../middleware/check-auth');
+const GetCountryController = require('../controllers/country/getCountry');
+const InsertCountryController = require('../controllers/country/insertCountry');
+const DeleteCountryController = require('../controllers/country/deleteCountry');
 
 //file storage constrain
 const storage = multer.diskStorage({
@@ -37,12 +36,12 @@ const upload = multer({
 });
 
 
-router.get("/", CountryController.get_all_country);
+router.get("/", GetCountryController.getAllCountry);
+router.get("/:countryId", GetCountryController.getCountryDetails);
 
-router.post("/", upload.single('picture'), CountryController.create_country);
+router.post("/", upload.single('picture'), InsertCountryController.createCountry);
+router.post("/dummy/:total", InsertCountryController.createDummyCountry);     //to insert dummy place(s)
 
-router.get("/:countryId", CountryController.get_country_details);
-
-router.delete("/:countryId", CountryController.delete_country);
+router.delete("/:countryId", DeleteCountryController.deleteCountry);
 
 module.exports = router;

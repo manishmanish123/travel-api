@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Place = require("../../models/place");
+const PlaceCollection = require("../../models/place");
 
 //for random data generation - dev only
 var casual = require('casual');
@@ -10,7 +10,7 @@ var casual = require('casual');
 //create place with form details
 exports.createPlace = (req, res, next) => {
   console.log(req.file)
-  const place = new Place({
+  const place = new PlaceCollection({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     short_address: req.body.short_address,
@@ -48,10 +48,10 @@ exports.createPlace = (req, res, next) => {
 exports.createDummyPlace = (req, res, next) => {
     const num = req.params.total;
 
-    Promise.all([Place.deleteMany({})]);        //first delete all places
+    Promise.all([PlaceCollection.deleteMany({})]);        //first delete all places
 
-    const docs = populateDBWithDummyData(num);
-    Promise.all([Place.insertMany(docs)]).then(res => {     //insert dummy data
+    const dummyPlaces = populateDBWithDummyData(num);
+    Promise.all([PlaceCollection.insertMany(dummyPlaces)]).then(res => {     //insert dummy data
         res.status(200).json({
             "Dummy place(s) created": num
         });
@@ -104,7 +104,7 @@ function populateDBWithDummyData(numberOfItems) {
       },
       userFeedback: {
         avgRating: casual.integer(from = 4.0, to = 5.0),
-        ratingCount: casual.integer(from = 500, to = 1000) ,
+        ratingCount: casual.integer(from = 500, to = 1000),
         topReviews: [
           {
             feedback: {
