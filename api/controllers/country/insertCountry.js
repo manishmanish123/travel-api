@@ -10,10 +10,27 @@ exports.createCountry = (req, res, next) => {
   const country = new CountryCollection({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
-    about: req.body.about,
-    picture: req.file.filename,
-    photos: req.body.photos,
-    videos: req.body.videos,
+    address: {
+        continent: req.body.address.continent,
+    },
+    about: {
+        description: req.body.about.description,
+        famousFor: req.body.about.famousFor,
+    },
+    contact: {
+        website: req.body.contact.website,
+    },
+    media: {
+        thumbnail: req.body.media.thumbnail,
+        picture: req.body.media.picture,
+        photos: req.body.media.photos,
+        videos: req.body.media.videos,
+    },
+    userFeedback: {
+        avgRating: req.body.userFeedback.avgRating,
+        ratingCount: req.body.userFeedback.ratingCount,
+    },
+    tags: req.body.tags,
   });
   country
     .save()

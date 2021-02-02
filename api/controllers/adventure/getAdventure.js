@@ -1,6 +1,6 @@
 const AdventureCollection = require("../../models/adventure");
 
-//get all cities
+//get all adventures
 exports.getAllAdventure = (req, res, next) => {
     AdventureCollection.find()
     .select("_id name country about picture").lean()

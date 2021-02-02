@@ -10,16 +10,33 @@ exports.createCity = (req, res, next) => {
   const city = new CityCollection({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
-    country: req.body.country,
-    country: {
-        id: req.body.country.id,
-        name: req.body.country.name,
+    address: {
+        state: req.body.state,
+        country: {
+            id: req.body.address.country.id,
+            name: req.body.address.country.name,
+        },
+        continent: req.body.address.continent,
     },
-    // country: req.body.country,
-    about: req.body.about,
-    picture: req.file.filename,
-    photos: req.body.photos,
-    videos: req.body.videos,
+    about: {
+        description: req.body.about.description,
+        famousFor: req.body.about.famousFor,
+    },
+    contact: {
+        website: req.body.contact.website,
+    },
+    media: {
+        thumbnail: req.body.media.thumbnail,
+        picture: req.body.media.picture,
+        photos: req.body.media.photos,
+        videos: req.body.media.videos,
+    },
+    userFeedback: {
+        avgRating: req.body.userFeedback.avgRating,
+        ratingCount: req.body.userFeedback.ratingCount,
+        topReviews: req.body.userFeedback.topReviews,
+    },
+    tags: req.body.tags,
   });
   city
     .save()

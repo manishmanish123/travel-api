@@ -10,16 +10,21 @@ exports.createAdventure = (req, res, next) => {
   const adventure = new AdventureCollection({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
-    country: req.body.country,
-    country: {
-        id: req.body.country.id,
-        name: req.body.country.name,
+    about: {
+        description: req.body.about.description,
+        famousFor: req.body.about.famousFor,
     },
-    // country: req.body.country,
-    about: req.body.about,
-    picture: req.file.filename,
-    photos: req.body.photos,
-    videos: req.body.videos,
+    media: {
+        thumbnail: req.body.media.thumbnail,
+        picture: req.body.media.picture,
+        photos: req.body.media.photos,
+        videos: req.body.media.videos,
+    },
+    userFeedback: {
+        avgRating: req.body.userFeedback.avgRating,
+        ratingCount: req.body.userFeedback.ratingCount,
+    },
+    tags: req.body.tags,
   });
   adventure
     .save()
@@ -30,12 +35,6 @@ exports.createAdventure = (req, res, next) => {
         createdAdventure: {
           _id: result._id,
           name: result.name,
-          country: result.country,
-          short_address: result.short_address,
-          picture: result.picture,
-          adventure: result.adventure,
-          adventure: result.adventure,
-          about: result.about,
         }
       });
     })
