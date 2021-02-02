@@ -68,7 +68,7 @@ const docs = [...new Array(numberOfItems)].map(_ => ({
       4: "favourable and economical tours",
     }),
     place: {
-      id: "",
+      id: "6017d3efe937590ba0be1477",
       name: casual.username,
       thumbnail: "1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg",
     },
