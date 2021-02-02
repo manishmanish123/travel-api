@@ -3,7 +3,7 @@ const CityCollection = require("../../models/city");
 //get all cities
 exports.getAllCity = (req, res, next) => {
     CityCollection.find()
-    .select("_id name country about picture").lean()
+    .select().lean()
     .limit(5)
     .exec()
     .then(cities => {

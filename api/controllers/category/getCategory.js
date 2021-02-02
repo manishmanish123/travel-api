@@ -3,7 +3,7 @@ const CategoryCollection = require("../../models/category");
 //get all cities
 exports.getAllCategory = (req, res, next) => {
     CategoryCollection.find()
-    .select("_id name country about picture").lean()
+    .select().lean()
     .limit(5)
     .exec()
     .then(categories => {
@@ -12,8 +12,8 @@ exports.getAllCategory = (req, res, next) => {
         categories: categories.map(category => {
           return {
             id: category._id,
-            name: category.name,
-            about: category.about,
+            place: category.place,
+            placeType: category.placeType,
           };
         })
       };
