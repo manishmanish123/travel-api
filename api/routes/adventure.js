@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const multer = require('multer');
 
-const GetCityController = require('../controllers/city/getCity');
-const InsertCityController = require('../controllers/city/insertCity');
-const DeleteCityController = require('../controllers/city/deleteCity');
+const GetAdventureController = require('../controllers/adventure/getAdventure');
+const InsertAdventureController = require('../controllers/adventure/insertAdventure');
+const DeleteAdventureController = require('../controllers/adventure/deleteAdventure');
 
 //file storage constrain
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads/city');
+        cb(null, './uploads/adventure');
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + "_" + file.originalname )
@@ -36,12 +36,12 @@ const upload = multer({
 });
 
 
-router.get("/", GetCityController.getAllCity);
-router.get("/:cityId", GetCityController.getCityDetails);
+router.get("/", GetAdventureController.getAllAdventure);
+router.get("/:adventureId", GetAdventureController.getAdventureDetails);
 
-router.post("/", upload.single('picture'), InsertCityController.createCity);
-router.post("/dummy/:total", InsertCityController.createDummyCity);     //to insert dummy city(s)
+router.post("/", upload.single('picture'), InsertAdventureController.createAdventure);
+router.post("/dummy/:total", InsertAdventureController.createDummyAdventure);     //to insert dummy adventure(s)
 
-router.delete("/:cityId", DeleteCityController.deleteCity);
+router.delete("/:adventureId", DeleteAdventureController.deleteAdventure);
 
 module.exports = router;

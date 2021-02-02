@@ -8,6 +8,7 @@ const placeRoute = require("./api/routes/place");
 const cityRoute = require("./api/routes/city");
 const countryRoute = require("./api/routes/country");
 const userRoute = require("./api/routes/user");
+const adventureRoute = require("./api/routes/adventure");
 
 const port = process.env.PORT || 3000;
 
@@ -44,6 +45,7 @@ app.use("/place", placeRoute);
 app.use("/city", cityRoute);
 app.use("/country", countryRoute);
 app.use("/user", userRoute);
+app.use("/adventure", adventureRoute);
 
 app.use((req, res, next) => {
   const error = new Error("Url not found");
