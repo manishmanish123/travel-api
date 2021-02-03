@@ -10,15 +10,17 @@ exports.getAllCategory = (req, res, next) => {
         const data = {};
         categories.map(category => {
             data[category.name] = {
-                places: category.place.map(place => {
-                    return {
-                        name: place.name,
-                        shortAddress: place.shortAddress,
-                        thumbnail: req.protocol + '://' + req.get('host') + "/" + process.env.UPLOAD_FOLDER + place.thumbnail,
-                    }
-                }),
-                placeType: category.placeType,
-              };
+              id: category._id,
+              places: category.place.map(place => {
+                  return {
+                    id: place.id,
+                    name: place.name,
+                    shortAddress: place.shortAddress,
+                    thumbnail: req.protocol + '://' + req.get('host') + "/" + process.env.UPLOAD_FOLDER + place.thumbnail,
+                  }
+              }),
+              placeType: category.placeType,
+            };
         })
 
       const response = {
@@ -48,7 +50,14 @@ exports.getCategoryDetails = (req, res, next) => {
           data: {
             id: category._id,
             name: category.name,
-            about: category.about,
+            places: category.place.map(place => {
+                return {
+                  id: place.id,
+                  name: place.name,
+                  shortAddress: place.shortAddress,
+                  thumbnail: req.protocol + '://' + req.get('host') + "/" + process.env.UPLOAD_FOLDER + place.thumbnail,
+                }
+            }),
           }
         });
       } else {
