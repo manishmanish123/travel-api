@@ -9,7 +9,7 @@ exports.getAllAdventure = (req, res, next) => {
     .then(adventures => {
       const response = {
         status: 200,
-        adventures: adventures.map(adventure => {
+        data: adventures.map(adventure => {
           return {
             id: adventure._id,
             name: adventure.name,

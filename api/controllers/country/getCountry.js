@@ -9,7 +9,7 @@ exports.getAllCountry = (req, res, next) => {
     .then(countries => {
       const response = {
         status: 200,
-        countries: countries.map(country => {
+        data: countries.map(country => {
           return {
             id: country._id,
             name: country.name,

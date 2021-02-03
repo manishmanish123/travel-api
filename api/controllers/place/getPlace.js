@@ -17,7 +17,7 @@ exports.getAllPlace = (req, res, next) => {
     .then(places => {
       const response = {
         status: 200,
-        places: places.map(doc => {
+        data: places.map(doc => {
           return {
             id: doc._id,
             name: doc.name,

@@ -9,7 +9,7 @@ exports.getAllCity = (req, res, next) => {
     .then(cities => {
       const response = {
         status: 200,
-        cities: cities.map(city => {
+        data: cities.map(city => {
           return {
             id: city._id,
             name: city.name,
