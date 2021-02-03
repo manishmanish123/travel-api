@@ -1,4 +1,5 @@
 const CategoryCollection = require("../../models/category");
+const helper = require("../../middleware/helper")
 
 //get all cities
 exports.getAllCategory = (req, res, next) => {
@@ -16,7 +17,7 @@ exports.getAllCategory = (req, res, next) => {
                     id: place.id,
                     name: place.name,
                     shortAddress: place.shortAddress,
-                    thumbnail: req.protocol + '://' + req.get('host') + "/" + process.env.UPLOAD_FOLDER + place.thumbnail,
+                    thumbnail: helper.getUploadUrl(req, place.thumbnail),
                   }
               }),
               placeType: category.placeType,
@@ -57,7 +58,7 @@ exports.getCategoryDetails = (req, res, next) => {
                   id: place.id,
                   name: place.name,
                   shortAddress: place.shortAddress,
-                  thumbnail: req.protocol + '://' + req.get('host') + "/" + process.env.UPLOAD_FOLDER + place.thumbnail,
+                  thumbnail: helper.getUploadUrl(req, place.thumbnail),
                 }
             }),
           }

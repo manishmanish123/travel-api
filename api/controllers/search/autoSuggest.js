@@ -1,4 +1,5 @@
 const PlaceCollection = require("../../models/place");
+const helper = require("../../middleware/helper");
 
 //get suggestion
 exports.getAutoSuggest = (req, res, next) => {
@@ -19,7 +20,7 @@ exports.getAutoSuggest = (req, res, next) => {
           return {
             id: doc._id,
             name: doc.name,
-            thumbnail: doc.media.thumbnail,
+            thumbnail: helper.getUploadUrl(req, doc.media.thumbnail),
           };
         })
       };

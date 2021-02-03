@@ -1,4 +1,5 @@
 const PlaceCollection = require("../../models/place");
+const helper = require("../../middleware/helper");
 
 //get place-search
 exports.getPlaceSearch = (req, res, next) => {
@@ -22,7 +23,7 @@ exports.getPlaceSearch = (req, res, next) => {
             id: doc._id,
             name: doc.name,
             shortAddress: doc.address.shortAddress,
-            thumbnail: doc.media.thumbnail,
+            thumbnail: helper.getUploadUrl(req, doc.media.thumbnail),
           };
         })
       };
