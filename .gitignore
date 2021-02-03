@@ -15,4 +15,4 @@
 .nodemon.json
 
 #environment variables
-#.env
+.env
