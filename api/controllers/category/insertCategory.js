@@ -83,8 +83,7 @@ function populateDBWithDummyData(numberOfItems) {
         ],
         placeType: casual.random_value({
             0: "place",
-            0: "city",
-            0: "adventure",
+            1: "city",
         }),
     }));
 

@@ -7,22 +7,23 @@ exports.getAllCategory = (req, res, next) => {
     .limit(5)
     .exec()
     .then(categories => {
+        const data = {};
+        categories.map(category => {
+            data[category.name] = {
+                places: category.place.map(place => {
+                    return {
+                        name: place.name,
+                        shortAddress: place.shortAddress,
+                        thumbnail: place.thumbnail,
+                    }
+                }),
+                placeType: category.placeType,
+              };
+        })
+
       const response = {
         status: 200,
-        data: categories.map(category => {
-          return {
-            id: category._id,
-            name: category.name,
-            places: category.place.map(place => {
-                return {
-                    name: place.name,
-                    shortAddress: place.shortAddress,
-                    thumbnail: place.thumbnail,
-                }
-            }),
-            placeType: category.placeType,
-          };
-        })
+        data: data
       };
       res.status(200).json(response);
     })
