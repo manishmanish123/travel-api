@@ -6,7 +6,7 @@ const placeSchema = mongoose.Schema({
     name: { type: String, required: true, index: true },
     address: {
         address: { type: String },
-        short_address: { type: String },
+        shortAddress: { type: String },
         zipCode: { type: String },
         location: {
             latitude: { type: String },

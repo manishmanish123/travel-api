@@ -67,7 +67,7 @@ function populateDBWithDummyData(numberOfItems) {
       name: casual.title,
       address: {
           address: casual.address,
-          short_address: casual.address1,
+          shortAddress: casual.address1,
           zipCode: casual.zip(),
           location: {
               latitude: casual.latitude,
