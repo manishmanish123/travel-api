@@ -4,6 +4,9 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+//for home page
+const GetCategoryController = require('./api/controllers/category/getCategory');
+
 const placeRoute = require("./api/routes/place");
 const cityRoute = require("./api/routes/city");
 const countryRoute = require("./api/routes/country");
@@ -45,6 +48,7 @@ app.use((req, res, next) => {
 });
 
 // Routes which should handle requests
+app.use("/home", GetCategoryController.getAllCategory);
 app.use("/place", placeRoute);
 app.use("/city", cityRoute);
 app.use("/country", countryRoute);
