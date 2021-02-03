@@ -13,3 +13,6 @@
 
 # misc
 .nodemon.json
+
+#environment variables
+#.env

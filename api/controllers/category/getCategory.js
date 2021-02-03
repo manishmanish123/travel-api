@@ -14,7 +14,7 @@ exports.getAllCategory = (req, res, next) => {
                     return {
                         name: place.name,
                         shortAddress: place.shortAddress,
-                        thumbnail: place.thumbnail,
+                        thumbnail: req.protocol + '://' + req.get('host') + "/" + process.env.UPLOAD_FOLDER + place.thumbnail,
                     }
                 }),
                 placeType: category.placeType,

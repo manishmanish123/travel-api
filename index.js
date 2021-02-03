@@ -11,7 +11,9 @@ const userRoute = require("./api/routes/user");
 const adventureRoute = require("./api/routes/adventure");
 const categoryRoute = require("./api/routes/category");
 
-const port = process.env.PORT || 3000;
+require('dotenv').config();
+
+const port = process.env.PORT;
 
 mongoose.connect(
     "mongodb+srv://manish:" + process.env.MONGO_ATLAS_PW + "@cluster0.rq0lx.mongodb.net/test?retryWrites=true&w=majority",
