@@ -4,7 +4,7 @@ const CategoryCollection = require("../../models/category");
 exports.getAllCategory = (req, res, next) => {
     CategoryCollection.find()
     .select().lean()
-    .limit(5)
+    .limit(10)
     .exec()
     .then(categories => {
         const data = {};
@@ -41,6 +41,8 @@ exports.getAllCategory = (req, res, next) => {
 //get details of a category by id
 exports.getCategoryDetails = (req, res, next) => {
   const id = req.params.categoryId;
+  const page = (req.query.page && req.query.page > 0)? req.query.page: 1;
+  const maxResults = 10;
   CategoryCollection.findById(id)
     .exec()
     .then(category => {
@@ -50,7 +52,7 @@ exports.getCategoryDetails = (req, res, next) => {
           data: {
             id: category._id,
             name: category.name,
-            places: category.place.map(place => {
+            places: category.place.slice(maxResults*(page-1), maxResults*page).map(place => {
                 return {
                   id: place.id,
                   name: place.name,

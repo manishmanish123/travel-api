@@ -3,13 +3,13 @@ const PlaceCollection = require("../../models/place");
 //get suggestion
 exports.getAutoSuggest = (req, res, next) => {
   const query = req.query.q;
+  const maxResults = 10;
   if(query && query !== "" && query.length>=3){
     const constrains = { name: new RegExp(query, 'i') }
     PlaceCollection
     .find(constrains)
-    // .where('name').equals('Eum')
     .select("_id name media.thumbnail").lean()
-    .limit(10)
+    .limit(maxResults)
     .exec()
     .then(result => {
       const response = {
