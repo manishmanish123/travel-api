@@ -8,6 +8,7 @@ const categorySchema = mongoose.Schema({
     place: [{
         id: { type: mongoose.Schema.Types.ObjectId },
         name: { type: String },
+        shortAddress: { type: String },
         thumbnail: { type: String },
     }],
     placeType: { type: String, index: true },    // eg. place/city/country etc. name of the collection

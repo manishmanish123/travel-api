@@ -9,10 +9,17 @@ exports.getAllCategory = (req, res, next) => {
     .then(categories => {
       const response = {
         status: 200,
-        categories: categories.map(category => {
+        data: categories.map(category => {
           return {
             id: category._id,
-            place: category.place,
+            name: category.name,
+            places: category.place.map(place => {
+                return {
+                    name: place.name,
+                    shortAddress: place.shortAddress,
+                    thumbnail: place.thumbnail,
+                }
+            }),
             placeType: category.placeType,
           };
         })

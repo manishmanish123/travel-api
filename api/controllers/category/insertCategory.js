@@ -71,11 +71,13 @@ function populateDBWithDummyData(numberOfItems) {
             {
                 id: "6017d3efe937590ba0be1477",
                 name: casual.username,
+                shortAddress: casual.country,
                 thumbnail: "1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg",
             },
             {
                 id: "6017d3efe937590ba0be1478",
                 name: casual.username,
+                shortAddress: casual.country,
                 thumbnail: "1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg",
             },
         ],
