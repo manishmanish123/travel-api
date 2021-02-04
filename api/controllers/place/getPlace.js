@@ -1,4 +1,5 @@
 const PlaceCollection = require("../../models/place");
+const helper = require("../../middleware/helper");
 
 // const [user, post] = await Promise.all([user.save(), post.save()])
 
@@ -54,6 +55,9 @@ exports.getPlaceDetails = (req, res, next) => {
             rating: place.userFeedback.avgRating,
             website: place.contact.website,
             phone: place.contact.phone,
+            about: place.about.description,
+            thumbnail: helper.getUploadUrl(req, place.media.thumbnail),
+            tags: place.tags,
           }
         });
       } else {
