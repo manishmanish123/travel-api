@@ -7,6 +7,10 @@ exports.getAutoSuggest = (req, res, next) => {
   query = query.trim().toLowerCase();
   const maxResults = 10;
   
+  /*url redirection*/
+  res.redirect('https://soovio.com/autosuggest?q='+query).end();
+  /*url redirection*/
+
   if(query && query !== "" && query.length>=3){
     const constrains = { name: new RegExp(query, 'i') }
     PlaceCollection
