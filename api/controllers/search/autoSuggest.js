@@ -3,8 +3,10 @@ const helper = require("../../middleware/helper");
 
 //get suggestion
 exports.getAutoSuggest = (req, res, next) => {
-  const query = req.query.q;
+  let query = req.query.q;
+  query = query.trim().toLowerCase();
   const maxResults = 10;
+  
   if(query && query !== "" && query.length>=3){
     const constrains = { name: new RegExp(query, 'i') }
     PlaceCollection

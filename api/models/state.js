@@ -1,25 +1,10 @@
 const mongoose = require('mongoose');
 
-//Place collection schema
-const placeSchema = mongoose.Schema({
+//State table
+const stateSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, index: true },
     address: {
-        address: { type: String },
-        shortAddress: { type: String },
-        zipCode: { type: String },
-        location: {
-            latitude: { type: String },
-            longitude: { type: String },
-        },
-        city: {
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'City', index: true },      //city ID
-            name: { type: String },
-        },
-        state: {
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'State', index: true },      //state ID
-            name: { type: String },
-        },
         country: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Country', index: true },      //country ID
             name: { type: String },
@@ -29,10 +14,8 @@ const placeSchema = mongoose.Schema({
     about: {
         description: { type: String },
         famousFor: { type: String },
-        timings: { type: String },
     },
     contact: {
-        phone: { type: String },
         website: { type: String },
     },
     media: {
@@ -60,15 +43,10 @@ const placeSchema = mongoose.Schema({
     tags: { type: [String], index: true }, // like boating, surfing(things to do) etc.
 });
 
-placeSchema.index({  // indexing at schema level
+stateSchema.index({  // indexing at schema level
     name: 1,
-    "address.city.id": 1,
-    "address.state.id": 1,
     "address.country.id": 1,
     tags: 1
 });
 
-// compile our model
-const Place = mongoose.model('Place', placeSchema);
-
-module.exports = Place;
+module.exports = mongoose.model('State', stateSchema);

@@ -3,9 +3,11 @@ const helper = require("../../middleware/helper");
 
 //get place-search
 exports.getPlaceSearch = (req, res, next) => {
-  const query = req.query.q;
+  let query = req.query.q;
+  query = query.trim().toLowerCase();
   const page = (req.query.page && req.query.page > 0)? req.query.page: 1;
   const maxResults = 10;
+  
   if(query && query !== "" && query.length>=3){
     const constrains = { name: new RegExp(query, 'i') }
     PlaceCollection

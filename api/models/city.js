@@ -5,7 +5,10 @@ const citySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, index: true },
     address: {
-        state: { type: String },
+        state: {
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'State', index: true },      //state ID
+            name: { type: String },
+        },
         country: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Country', index: true },      //country ID
             name: { type: String },
@@ -46,6 +49,7 @@ const citySchema = mongoose.Schema({
 
 citySchema.index({  // indexing at schema level
     name: 1,
+    "address.state.id": 1,
     "address.country.id": 1,
     tags: 1
 });
