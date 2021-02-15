@@ -11,6 +11,13 @@ const placeSchema = mongoose.Schema({
         location: {
             latitude: { type: String },
             longitude: { type: String },
+            boundingBox: {
+                south: { type: String },
+                west: { type: String },
+                north: { type: String },
+                east: { type: String },
+            },
+            quadkey: { type: String },
         },
         city: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'City', index: true },      //city ID
