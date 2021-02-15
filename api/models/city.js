@@ -8,6 +8,7 @@ const citySchema = mongoose.Schema({
         location: {
             latitude: { type: String },
             longitude: { type: String },
+            satelliteImage: { type: String },
             boundingBox: {
                 south: { type: String },
                 west: { type: String },
