@@ -48,6 +48,11 @@ const citySchema = mongoose.Schema({
         }],
     },
     tags: { type: [String], index: true }, // like boating, surfing(things to do) etc.
+    references: [{
+        supplier: { type: String },
+        type: { type: String },
+        url: { type: String },
+    }],
 });
 
 citySchema.index({  // indexing at schema level
