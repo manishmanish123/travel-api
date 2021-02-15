@@ -23,6 +23,8 @@ const countrySchema = mongoose.Schema({
     },
     about: {
         description: { type: String },
+        area: { type: String },
+        population: { type: String },
         famousFor: { type: String },
     },
     contact: {
