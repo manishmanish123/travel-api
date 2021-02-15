@@ -4,6 +4,19 @@ const mongoose = require('mongoose');
 const continentSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, index: true },
+    address: {
+        location: {
+            latitude: { type: String },
+            longitude: { type: String },
+            boundingBox: {
+                south: { type: String },
+                west: { type: String },
+                north: { type: String },
+                east: { type: String },
+            },
+            quadkey: { type: String },
+        },
+    },
     about: {
         description: { type: String },
         famousFor: { type: String },

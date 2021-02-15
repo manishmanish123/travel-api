@@ -40,6 +40,13 @@ exports.getAllPlace = (req, res, next) => {
 //get details of a place by id
 exports.getPlaceDetails = (req, res, next) => {
   const id = req.params.placeId;
+  
+  /*url redirection*/
+  if(id.includes(":")){
+    res.redirect('https://soovio.com/place/'+id).end();
+  }
+  /*url redirection*/
+
   PlaceCollection.findById(id)
     .select().lean()
     .exec()

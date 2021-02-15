@@ -5,6 +5,17 @@ const countrySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, index: true },
     address: {
+        location: {
+            latitude: { type: String },
+            longitude: { type: String },
+            boundingBox: {
+                south: { type: String },
+                west: { type: String },
+                north: { type: String },
+                east: { type: String },
+            },
+            quadkey: { type: String },
+        },
         continent: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Continent', index: true },      //continent ID
             name: { type: String, index: true },
