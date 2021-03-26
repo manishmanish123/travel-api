@@ -4,6 +4,13 @@ const mongoose = require('mongoose');
 const countrySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, index: true },
+    capital: { type: String },
+    countryCode: {
+        countryCode: { type: String },
+        fips: { type: String },
+        isoAlpha3: { type: String },
+        isoNumeric: { type: String },
+    },
     address: {
         location: {
             latitude: { type: String },
@@ -20,12 +27,15 @@ const countrySchema = mongoose.Schema({
         continent: {
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'Continent', index: true },      //continent ID
             name: { type: String, index: true },
+            continentCode: { type: String },
         },
     },
     about: {
-        description: { type: String },
-        area: { type: String },
+        languages: { type: String },
         population: { type: String },
+        area: { type: String },
+        currencyCode: { type: String },
+        description: { type: String },
         famousFor: { type: String },
     },
     contact: {

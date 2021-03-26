@@ -1,32 +1,31 @@
 const axios = require('axios').default;
 // const fs = require("fs");
 
+const helper = require("../api/middleware/helper");
 const mongoose = require("mongoose");
 const CountryCollection = require("../api/models/country");
 
 module.exports = {
     geonamesCountry: function () {
+        
+        // CountryCollection.deleteMany().exec();
         axios({
             method: 'get',
-            url: 'http://api.geonames.org/countryInfoJSON?lang=en&username=manishkumar&country=IN',
+            url: 'http://api.geonames.org/countryInfoJSON?lang=en&username=manishkumar',
             responseType: 'json'
           })
         .then(function  (res){
             let countries = res.data['geonames'];
             countries.forEach(country => {
-                let nameConstraint = new RegExp(country.countryName, 'i');
-                let capitalConstraint = new RegExp(country.capital, 'i');
-                let countryCodeIsoNumericConstraint = new RegExp(country.isoNumeric, 'i');
                 
-                CountryCollection.find({
-                    name: nameConstraint,
-                    capital: capitalConstraint,
-                    countryCode: {
-                        isoNumeric: countryCodeIsoNumericConstraint
-                    }
+                CountryCollection.findOne({
+                    name: helper.getRegex(country.countryName),
+                    capital: helper.getRegex(country.capital),
+                    'countryCode.isoNumeric': country.isoNumeric,
                 }).exec()
                 .then(result => {
-                    if(result.length == 0){
+                    
+                    if(result === null){
                         let countryDetails = {
                             _id: new mongoose.Types.ObjectId(),
                             name: country.countryName,
@@ -39,10 +38,12 @@ module.exports = {
                             },
                             address: {
                                 location: {
-                                    south: country.south,
-                                    north: country.north,
-                                    east: country.east,
-                                    west: country.west,
+                                    boundingBox: {
+                                        south: country.south,
+                                        north: country.north,
+                                        east: country.east,
+                                        west: country.west,
+                                    }
                                 },
                                 continent: {
                                     name: country.continentName,
@@ -67,14 +68,15 @@ module.exports = {
                         new CountryCollection(countryDetails)
                         .save()
                         .then(result => {
-                            console.log("Country created successfully, Id:" + result._id);
+                            console.log("Country created successfully, Id:" + result._id + ",  name:" + result.name);
                         })
                         .catch(err => {
                             console.log(err);
                         });
 
                     }
-                    else console.log("Country already exists, Id:" + result._id);
+                    else console.log("Country already exists, Id:" + result._id + ",  name:" + result.name);
+                    
                 })
                 .catch(err => {
                   console.log(err);
