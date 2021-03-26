@@ -53,7 +53,7 @@ module.exports = {
                             about: {
                                 languages: country.languages,
                                 population: country.population,
-                                area: country.areaInSqKm,
+                                areaInSqKm: country.areaInSqKm,
                                 currencyCode: country.currencyCode,
                             },
                             references: [

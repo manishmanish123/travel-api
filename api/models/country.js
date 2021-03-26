@@ -33,7 +33,7 @@ const countrySchema = mongoose.Schema({
     about: {
         languages: { type: String },
         population: { type: String },
-        area: { type: String },
+        areaInSqKm: { type: String },
         currencyCode: { type: String },
         description: { type: String },
         famousFor: { type: String },
@@ -55,7 +55,7 @@ const countrySchema = mongoose.Schema({
     references: [{
         supplier: { type: String },
         type: { type: String },
-        url: { type: String },
+        data: { type: String },
     }],
 });
 
