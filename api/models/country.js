@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const countrySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, index: true },
+    officialName: { type: String },
     capital: { type: String },
     countryCode: {
         countryCode: { type: String },
