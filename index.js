@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const crons = require("./crons/config");
 
 //for home page
 const GetCategoryController = require('./api/controllers/category/getCategory');
@@ -15,6 +15,7 @@ const adventureRoute = require("./api/routes/adventure");
 const categoryRoute = require("./api/routes/category");
 const searchRoute = require("./api/routes/search");
 
+//for environment variables configuration
 require('dotenv').config();
 
 const port = process.env.PORT;
@@ -31,8 +32,8 @@ mongoose.Promise = global.Promise;
 
 app.use(morgan("dev"));
 app.use('/uploads', express.static('uploads'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -71,6 +72,11 @@ app.use((error, req, res, next) => {
     }
   });
 });
+
+
+//Initilizing crons
+crons.cronInitilize();
+
 
 app.listen(port, () => {
     console.log(`myapp listening at http://localhost:${port}`)
