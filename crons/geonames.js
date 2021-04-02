@@ -12,7 +12,7 @@ module.exports = {
         // CountryCollection.deleteMany().exec();
         axios({
             method: 'get',
-            url: 'http://api.geonames.org/countryInfoJSON?lang=en&username=' + process.env.GEONAME_USERID,
+            url: 'http://api.geonames.org/countryInfoJSON?lang=en&username=' + process.env.GEONAME_USERID,  //+ '&country=IN'
             responseType: 'json'
           })
         .then(function  (res){
@@ -130,6 +130,47 @@ module.exports = {
                                         countryObject.save()
                                         .then(savedDoc => {
                                             console.log("Country updated, Id:" + savedDoc._id);
+                                            let wikipediaIdIndex = wikipediaUrl.indexOf("wiki/") + 5;
+                                            let wikipediaId = wikipediaUrl.substr(wikipediaIdIndex);
+                                            
+                                            axios({
+                                                method: 'get',
+                                                url: 'https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&format=json&titles=' + wikipediaId,
+                                                responseType: 'json'
+                                            }).then(function(wikipediaResultJson) {
+                                                let wikipediaResult = wikipediaResultJson['data'];
+                                                let wikipediaResultString = JSON.stringify(wikipediaResult.query.pages);
+                                                let wikiDataIdIndex = wikipediaResultString.indexOf("wikibase_item") + 16;
+
+                                                let wikiDataId = '';
+                                                while(wikipediaResultString[wikiDataIdIndex]!='"'){
+                                                    wikiDataId += wikipediaResultString[wikiDataIdIndex++];
+                                                }
+
+                                                if(wikiDataId.length!==''){
+                                                    //country data references
+                                                    let newCountryReferences = null;
+                                                    newCountryReferences = [
+                                                        ...countryObject.references,
+                                                        {
+                                                            supplier: 'wikidata',
+                                                            type: 'id',
+                                                            data: wikiDataId,
+                                                        }
+                                                    ]
+
+                                                    countryObject.references = newCountryReferences;
+                                                    countryObject.save();
+
+                                                    console.log("Wikidata reference saved, ID:" + savedDoc._id);
+                                                }
+                                                else console.log("No wikidata ID found for: " + savedDoc.name);
+                                                
+                                            })
+                                            .catch(err => {
+                                                console.log(err);
+                                            });
+
                                         })
                                         .catch(err => {
                                             console.log(err);
