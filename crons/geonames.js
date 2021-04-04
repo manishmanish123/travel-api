@@ -133,6 +133,7 @@ module.exports = {
                                             let wikipediaIdIndex = wikipediaUrl.indexOf("wiki/") + 5;
                                             let wikipediaId = wikipediaUrl.substr(wikipediaIdIndex);
                                             
+                                            //to fetch wikidata ID
                                             axios({
                                                 method: 'get',
                                                 url: 'https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&format=json&titles=' + wikipediaId,
