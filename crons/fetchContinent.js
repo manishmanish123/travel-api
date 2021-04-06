@@ -9,15 +9,14 @@ const ContinentCollection = require("../api/models/continent");
 module.exports = {
     geonamesContinent: function () {
         
-        let fetchData = true;
-        if(!fetchData)
-            ContinentCollection.deleteMany().exec();
-        else axios({
+        // ContinentCollection.deleteMany().exec();
+        axios({
             method: 'get',
             url: 'https://pkgstore.datahub.io/core/continent-codes/continent-codes_json/data/60d6baef1250bc2b01fd0148dccca518/continent-codes_json.json',
             responseType: 'json'
           })
         .then(function  (res){
+            // return false;
             let continents = res.data;
             continents.forEach(continent => {
                 
@@ -115,9 +114,44 @@ module.exports = {
                                                         ...continentObject.references
                                                     ]
 
+                                                    continentObject.address.location = {
+                                                        latitude: element.lat,
+                                                        longitude: element.lng,
+                                                    }
+                                                    continentObject.about = {
+                                                        population: element.population,
+                                                    }
                                                     continentObject.references = newContinentRef;
+
                                                     continentObject.save().then(savedContinentDoc => {
                                                         console.log("geonames reference saved, ID:" + savedContinentDoc._id);
+
+                                                        //fetching geonamesId data
+                                                        axios({
+                                                            method: 'get',
+                                                            url: 'http://api.geonames.org/get?geonameId=' + continentGeonameId + '&username= ' + process.env.GEONAME_USERID + '&lang=en&style=FULL',
+                                                            responseType: 'text'
+                                                        }).then(function(geonameIdResult){
+                                                            geonameIdResult = geonameIdResult.data;
+                                                            //convert xml to json
+                                                            let jsonString = convertXmlToJs.xml2json(geonameIdResult, {compact: true, spaces: 4});
+                                                            let jsonResult = JSON.parse(jsonString).geoname;
+
+                                                            continentObject.address.location.boundingBox = {
+                                                                south: jsonResult.bbox.south._text,
+                                                                west: jsonResult.bbox.west._text,
+                                                                north: jsonResult.bbox.north._text,
+                                                                east: jsonResult.bbox.east._text,
+                                                            }
+                                                            continentObject.save().then(newContinentDoc => {
+                                                                console.log("Bounding box details saved: Id" + newContinentDoc._id)
+                                                            })
+
+                                                        })
+                                                        .catch(err => {
+                                                            console.log(err);
+                                                        });
+
                                                     });
 
                                                     return false;
