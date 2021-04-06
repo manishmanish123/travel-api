@@ -4,77 +4,78 @@ var convertXmlToJs = require('xml-js');
 
 const helper = require("../api/middleware/helper");
 const mongoose = require("mongoose");
-const CountryCollection = require("../api/models/country");
+const CityCollection = require("../api/models/city");
 
 module.exports = {
-    geonamesCountry: function () {
+    geonamesCity: function () {
         
-        // CountryCollection.deleteMany().exec();
+        // CityCollection.deleteMany().exec();
         axios({
             method: 'get',
-            url: 'http://api.geonames.org/countryInfoJSON?lang=en&username=' + process.env.GEONAME_USERID,  //+ '&country=IN'
+            url: 'https://pkgstore.datahub.io/core/world-cities/world-cities_json/data/5b3dd46ad10990bca47b04b4739a02ba/world-cities_json.json',
             responseType: 'json'
           })
         .then(function  (res){
-            let countries = res.data['geonames'];
-            countries.forEach(country => {
+            let cities = res.data;
+            cities.forEach(city => {
                 
-                CountryCollection.findOne({
-                    name: helper.getRegex(country.countryName),
-                    capital: helper.getRegex(country.capital),
-                    'countryCode.isoNumeric': country.isoNumeric,
+                CityCollection.findOne({
+                    name: helper.getRegex(city.name),
+                    'country.name': helper.getRegex(city.country),
+                    'references.supplier': 'geonames',
+                    'references.data': city.geonameid,
                 }).exec()
                 .then(result => {
                     
-                    let countryObject = null;
+                    let cityObject = null;
                     if(result === null){
-                        let countryDetails = {
+                        let cityDetails = {
                             _id: new mongoose.Types.ObjectId(),
-                            name: country.countryName,
-                            capital: country.capital,
+                            name: city.countryName,
+                            capital: city.capital,
                             countryCode: {
-                                countryCode: country.countryCode,
-                                fips: country.fipsCode,
-                                isoAlpha3: country.isoAlpha3,
-                                isoNumeric: country.isoNumeric,
+                                countryCode: city.countryCode,
+                                fips: city.fipsCode,
+                                isoAlpha3: city.isoAlpha3,
+                                isoNumeric: city.isoNumeric,
                             },
                             address: {
                                 location: {
                                     boundingBox: {
-                                        south: country.south,
-                                        north: country.north,
-                                        east: country.east,
-                                        west: country.west,
+                                        south: city.south,
+                                        north: city.north,
+                                        east: city.east,
+                                        west: city.west,
                                     }
                                 },
                                 continent: {
-                                    name: country.continentName,
-                                    continentCode: country.continent,
+                                    name: city.continentName,
+                                    continentCode: city.continent,
                                 }
                             },
                             about: {
-                                languages: country.languages,
-                                population: country.population,
-                                areaInSqKm: country.areaInSqKm,
-                                currencyCode: country.currencyCode,
+                                languages: city.languages,
+                                population: city.population,
+                                areaInSqKm: city.areaInSqKm,
+                                currencyCode: city.currencyCode,
                             },
                             references: [
                                 {
                                     supplier: 'geonames',
                                     type: 'id',
-                                    data: country.geonameId
+                                    data: city.geonameId
                                 }
                             ]
                         }
                         
-                        new CountryCollection(countryDetails)
+                        new CityCollection(cityDetails)
                         .save()
                         .then(result => {
-                            countryObject = result;
+                            cityObject = result;
                             console.log("Country created successfully, Id:" + result._id + ",  name:" + result.name);
 
                             //fetch country details by geonameId
-                            countryObject.references.forEach(reference => {
+                            cityObject.references.forEach(reference => {
                                 if(reference.supplier === 'geonames'){
                                     axios({
                                         method: 'get',
@@ -89,7 +90,7 @@ module.exports = {
                                         //wikipedia url
                                         let wikipediaUrl = '';
                                         let updateWikipediaReference = true;
-                                        countryObject.references.forEach(reference => {
+                                        cityObject.references.forEach(reference => {
                                             if(reference.supplier === 'wikipedia'){
                                                 updateWikipediaReference = false;
                                                 return false;
@@ -108,7 +109,7 @@ module.exports = {
                                         let countryReferences = null;
                                         if(wikipediaUrl!==''){
                                             countryReferences = [
-                                                ...countryObject.references,
+                                                ...cityObject.references,
                                                 {
                                                     supplier: 'wikipedia',
                                                     type: 'url',
@@ -116,18 +117,18 @@ module.exports = {
                                                 }
                                             ];
                                         }
-                                        else countryReferences = [...countryObject.references];
+                                        else countryReferences = [...cityObject.references];
 
                                         //country details to update
-                                        countryObject.officialName = jsonResult.toponymName._text;
-                                        countryObject.address.location = {
+                                        cityObject.officialName = jsonResult.toponymName._text;
+                                        cityObject.address.location = {
                                             latitude: jsonResult.lat._text,
                                             longitude: jsonResult.lng._text,
                                         };
-                                        countryObject.references = countryReferences;
+                                        cityObject.references = countryReferences;
 
                                         // console.log(countryDetailsToUpdate)
-                                        countryObject.save()
+                                        cityObject.save()
                                         .then(savedDoc => {
                                             console.log("Country updated, Id:" + savedDoc._id);
                                             let wikipediaIdIndex = wikipediaUrl.indexOf("wiki/") + 5;
@@ -152,7 +153,7 @@ module.exports = {
                                                     //country data references
                                                     let newCountryReferences = null;
                                                     newCountryReferences = [
-                                                        ...countryObject.references,
+                                                        ...cityObject.references,
                                                         {
                                                             supplier: 'wikidata',
                                                             type: 'id',
@@ -160,8 +161,8 @@ module.exports = {
                                                         }
                                                     ]
 
-                                                    countryObject.references = newCountryReferences;
-                                                    countryObject.save();
+                                                    cityObject.references = newCountryReferences;
+                                                    cityObject.save();
 
                                                     console.log("Wikidata reference saved, ID:" + savedDoc._id);
                                                 }
@@ -193,7 +194,7 @@ module.exports = {
 
                     }
                     else {
-                        countryObject = result;
+                        cityObject = result;
                         console.log("Country already exists, Id:" + result._id + ",  name:" + result.name);
                     }
                     

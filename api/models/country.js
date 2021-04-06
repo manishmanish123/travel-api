@@ -54,7 +54,7 @@ const countrySchema = mongoose.Schema({
     },
     tags: { type: [String], index: true }, // like boating, surfing(things to do) etc.
     references: [{
-        supplier: { type: String },
+        provider: { type: String },
         type: { type: String },
         data: { type: String },
     }],

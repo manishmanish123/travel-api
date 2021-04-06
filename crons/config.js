@@ -1,17 +1,22 @@
 const cron = require("node-cron");
-const geonames = require("./geonames");
+const fetchCity = require("./fetchCity");
+const fetchCountry = require("./fetchCountry");
+const fetchContinent = require("./fetchContinent");
 
 module.exports = {
     cronInitilize: function(){
-        geonames.geonamesCountry();
+        // fetchCountry.geonamesCountry();
         //second(optional) minute hour day month weekday
 
         // Creating a cron job for country fetch
         // cron.schedule("0 0 1 1 */6 *", function() {
-        //     geonames.geonamesCountry();
+        //     fetchCountry.geonamesCountry();
         // }, {
         //     timezone: "Asia/Kolkata"
         // });
 
+        // fetchCity.geonamesCity();
+
+        fetchContinent.geonamesContinent();
     },
 };
