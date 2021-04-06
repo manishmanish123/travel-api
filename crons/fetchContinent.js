@@ -137,6 +137,7 @@ module.exports = {
                                                             let jsonString = convertXmlToJs.xml2json(geonameIdResult, {compact: true, spaces: 4});
                                                             let jsonResult = JSON.parse(jsonString).geoname;
 
+                                                            continentObject.officialName = jsonResult.toponymName._text;
                                                             continentObject.address.location.boundingBox = {
                                                                 south: jsonResult.bbox.south._text,
                                                                 west: jsonResult.bbox.west._text,

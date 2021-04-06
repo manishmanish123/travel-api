@@ -6,6 +6,7 @@ const fetchContinent = require("./fetchContinent");
 module.exports = {
     cronInitilize: function(){
         // fetchCountry.geonamesCountry();
+        // fetchContinent.geonamesContinent();
         //second(optional) minute hour day month weekday
 
         // Creating a cron job for country fetch
@@ -15,8 +16,6 @@ module.exports = {
         //     timezone: "Asia/Kolkata"
         // });
 
-        // fetchCity.geonamesCity();
-
-        fetchContinent.geonamesContinent();
+        fetchCity.geonamesCity();
     },
 };

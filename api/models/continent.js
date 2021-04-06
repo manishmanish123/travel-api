@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const continentSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: { type: String, required: true, index: true },
+    officialName: { type: String },
     continentCode: { type: String },
     address: {
         location: {
