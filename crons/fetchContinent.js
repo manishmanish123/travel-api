@@ -9,8 +9,10 @@ const ContinentCollection = require("../api/models/continent");
 module.exports = {
     geonamesContinent: function () {
         
-        // ContinentCollection.deleteMany().exec();
-        axios({
+        let fetchData = true;
+        if(!fetchData)
+            ContinentCollection.deleteMany().exec();
+        else axios({
             method: 'get',
             url: 'https://pkgstore.datahub.io/core/continent-codes/continent-codes_json/data/60d6baef1250bc2b01fd0148dccca518/continent-codes_json.json',
             responseType: 'json'
@@ -76,8 +78,8 @@ module.exports = {
 
                                     if(wikiDataId.length!==''){
                                         //country data references
-                                        let newCountryReferences = null;
-                                        newCountryReferences = [
+                                        let newContinentReferences = null;
+                                        newContinentReferences = [
                                             ...continentObject.references,
                                             {
                                                 provider: 'wikidata',
@@ -86,10 +88,46 @@ module.exports = {
                                             }
                                         ]
 
-                                        continentObject.references = newCountryReferences;
+                                        continentObject.references = newContinentReferences;
                                         continentObject.save();
 
                                         console.log("Wikidata reference saved, ID:" + savedDoc._id);
+                                        
+                                        //fetching geoname id and data
+                                        let continentGeonameId = null;
+                                        axios({
+                                            method: 'get',
+                                            url: 'http://api.geonames.org/searchJSON?maxRows=10&q= ' + continentObject.name + '&username=' + process.env.GEONAME_USERID,
+                                            responseType: 'json'
+                                        }).then(function(continentSearchRes) {
+                                            let continentSearchResult = continentSearchRes.data['geonames'];
+                                            continentSearchResult.forEach(element => {
+                                                if(element.fcodeName == 'continent'){
+                                                    continentGeonameId = element.geonameId;
+                                                    
+                                                    let newContinentRef = null;
+                                                    newContinentRef = [
+                                                        {
+                                                            provider: 'geonames',
+                                                            type: 'id',
+                                                            data: continentGeonameId,
+                                                        },
+                                                        ...continentObject.references
+                                                    ]
+
+                                                    continentObject.references = newContinentRef;
+                                                    continentObject.save().then(savedContinentDoc => {
+                                                        console.log("geonames reference saved, ID:" + savedContinentDoc._id);
+                                                    });
+
+                                                    return false;
+                                                }
+                                            });
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                        });
+
                                     }
                                     else console.log("No wikidata ID found for: " + savedDoc.name);
                                     
