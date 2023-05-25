@@ -4,7 +4,6 @@ const multer = require('multer');
 // const checkAuth = require('../middleware/check-auth');
 
 const GetPlaceController = require('../controllers/place/getPlace');
-const InsertPlaceController = require('../controllers/place/insertPlace');
 const DeletePlaceController = require('../controllers/place/deletePlace');
 
 // const UserController = require('../controllers/user');
@@ -42,9 +41,6 @@ const upload = multer({
 
 router.get("/", GetPlaceController.getAllPlace);
 router.get("/:placeId", GetPlaceController.getPlaceDetails);
-
-router.post("/", upload.single('picture'), InsertPlaceController.createPlace);
-router.post("/dummy/:total", InsertPlaceController.createDummyPlace);     //to insert dummy place(s)
 
 router.delete("/:placeId", DeletePlaceController.deletePlace);
 
