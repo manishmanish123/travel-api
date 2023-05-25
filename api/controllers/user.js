@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 
 //for random data generation - dev only
-var casual = require('casual');
+//var = require('casual');
 
 
 //get all user
@@ -50,53 +50,6 @@ exports.create_user = (req, res, next) => {
         "User created": num
     });
 };
-
-function populateDBWithDummyData(numberOfItems) {
-    const docs = [...new Array(numberOfItems)].map(_ => ({
-        name: casual.name,
-        contact: {
-            email: casual.email,
-            phone: casual.phone,
-        },
-        address: {
-            address: casual.address,
-            short_address: casual.address1,
-            zipCode: casual.zip(),
-            location: {
-                latitude: casual.latitude,
-                longitide: casual.longitude,
-            },
-            city: "600e99a65d8b330b5c4d3d1a",
-            state: casual.state,
-            country: "600e99a65d8b330b5c4d3d1a",
-        },
-        password: casual.password,
-        suggestions: {
-            notification: {
-                message: casual.notification,
-                actionUrl: casual.url,
-            },
-            settings: [
-                {
-                    name: "Mail Subscription",
-                    value: casual.coin_flip,
-                },
-                {
-                    name: "Mail Subscription",
-                    value: casual.coin_flip,
-                },
-            ],
-            places: {
-                recommended: {
-                    place: "600e99a65d8b330b5c4d3d1a",
-                    placeType: casual.random_value({
-                        0: "place",
-                        1: "city",
-                    }),
-                }
-            },
-        },
-    }));
 
     return docs;
 }
