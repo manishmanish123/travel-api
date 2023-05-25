@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require('multer');
 
 const GetAdventureController = require('../controllers/adventure/getAdventure');
-const InsertAdventureController = require('../controllers/adventure/insertAdventure');
 const DeleteAdventureController = require('../controllers/adventure/deleteAdventure');
 
 //file storage constrain
@@ -39,8 +38,6 @@ const upload = multer({
 router.get("/", GetAdventureController.getAllAdventure);
 router.get("/:adventureId", GetAdventureController.getAdventureDetails);
 
-router.post("/", upload.single('picture'), InsertAdventureController.createAdventure);
-router.post("/dummy/:total", InsertAdventureController.createDummyAdventure);     //to insert dummy adventure(s)
 
 router.delete("/:adventureId", DeleteAdventureController.deleteAdventure);
 
