@@ -25,10 +25,10 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "node-cron": "^3.0.0",
-    "xml-js": "^1.6.11"
+    "xml-js": "^1.6.11",
+    "casual": "^1.6.2"
   },
   "devDependencies": {
-    "casual": "^1.6.2",
     "nodemon": "^2.0.7"
   }
 }
