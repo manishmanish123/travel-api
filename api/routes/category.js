@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require('multer');
 
 const GetCategoryController = require('../controllers/category/getCategory');
-const InsertCategoryController = require('../controllers/category/insertCategory');
 const DeleteCategoryController = require('../controllers/category/deleteCategory');
 
 //file storage constrain
@@ -38,9 +37,6 @@ const upload = multer({
 
 router.get("/", GetCategoryController.getAllCategory);
 router.get("/:categoryId", GetCategoryController.getCategoryDetails);
-
-router.post("/", upload.single('picture'), InsertCategoryController.createCategory);
-router.post("/dummy/:total", InsertCategoryController.createDummyCategory);     //to insert dummy category(s)
 
 router.delete("/:categoryId", DeleteCategoryController.deleteCategory);
 
