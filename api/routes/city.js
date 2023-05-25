@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require('multer');
 
 const GetCityController = require('../controllers/city/getCity');
-const InsertCityController = require('../controllers/city/insertCity');
 const DeleteCityController = require('../controllers/city/deleteCity');
 
 //file storage constrain
@@ -38,9 +37,6 @@ const upload = multer({
 
 router.get("/", GetCityController.getAllCity);
 router.get("/:cityId", GetCityController.getCityDetails);
-
-router.post("/", upload.single('picture'), InsertCityController.createCity);
-router.post("/dummy/:total", InsertCityController.createDummyCity);     //to insert dummy city(s)
 
 router.delete("/:cityId", DeleteCityController.deleteCity);
 
