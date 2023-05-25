@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 
 //for random data generation - dev only
-//var = require('casual');
+//var casual = require('casual');
 
 
 //get all user
@@ -50,6 +50,3 @@ exports.create_user = (req, res, next) => {
         "User created": num
     });
 };
-
-    return docs;
-}
