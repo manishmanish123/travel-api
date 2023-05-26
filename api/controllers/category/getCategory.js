@@ -3,7 +3,6 @@ const helper = require("../../middleware/helper")
 
 //get all cities
 exports.getAllCategory = (req, res, next) => {
-    console.log(123);
     CategoryCollection.find()
     .select().lean()
     .limit(10)
@@ -29,6 +28,7 @@ exports.getAllCategory = (req, res, next) => {
         status: 200,
         data: data
       };
+        console.log(response);
       res.status(200).json(response);
     })
     .catch(err => {
