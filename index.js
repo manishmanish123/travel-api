@@ -21,7 +21,7 @@ require('dotenv').config();
 const port = process.env.PORT;
 
 mongoose.connect(
-    "mongodb+srv://manish:" + process.env.MONGO_ATLAS_PW + "@cluster0.rq0lx.mongodb.net/test?retryWrites=true&w=majority",
+    "mongodb+srv://manish:" + process.env.MONGO_ATLAS_PW + "@cluster0.qphxmtt.mongodb.net/test?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
