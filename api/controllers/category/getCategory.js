@@ -4,25 +4,6 @@ const helper = require("../../middleware/helper")
 //get all cities
 exports.getAllCategory = (req, res, next) => {
         const data = {};
-    CategoryCollection.find()
-    .select().lean()
-    .limit(10)
-    .exec()
-    .then(categories => {
-        categories.map(category => {
-            data[category.name] = {
-              id: category._id,
-              places: category.place.map(place => {
-                  return {
-                    id: place.id,
-                    name: place.name,
-                    shortAddress: place.shortAddress,
-                    thumbnail: helper.getUploadUrl(req, place.thumbnail),
-                  }
-              }),
-              placeType: category.placeType,
-            };
-        })
 
       const response = {
         status: 200,
