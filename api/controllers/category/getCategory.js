@@ -3,12 +3,12 @@ const helper = require("../../middleware/helper")
 
 //get all cities
 exports.getAllCategory = (req, res, next) => {
+        const data = {};
     CategoryCollection.find()
     .select().lean()
     .limit(10)
     .exec()
     .then(categories => {
-        const data = {};
         categories.map(category => {
             data[category.name] = {
               id: category._id,
