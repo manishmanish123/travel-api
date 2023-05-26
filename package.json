@@ -28,7 +28,6 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "casual": "^1.6.2",
     "nodemon": "^2.0.22"
   }
 }
