@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start: "npm update",
+    "start": "npm update",
     "dev": "env-cmd nodemon index.js",
     "repl": "env-cmd node"
   },
