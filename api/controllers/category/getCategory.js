@@ -3,14 +3,8 @@ const helper = require("../../middleware/helper")
 
 //get all cities
 exports.getAllCategory = (req, res, next) => {
-        const data = {
-                "hello": "Hi"
-        };
 
-      const response = {
-        status: 200,
-        data: data
-      };
+      const response = {"status":200,"data":{"Famous attraction places":{"id":"646f3a6344a6b7162cc5a5e9","places":[{"id":"6017d3efe937590ba0be1477","name":"Jed_Heller","shortAddress":"Korea","thumbnail":"http://localhost:3000/uploads/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg"},{"id":"6017d3efe937590ba0be1478","name":"Effertz_Gregorio","shortAddress":"Portugal","thumbnail":"http://localhost:3000/uploads/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg"}],"placeType":"city"},"adventurous experiences":{"id":"646f3a6344a6b7162cc5a5ea","places":[{"id":"6017d3efe937590ba0be1477","name":"Greg_Fahey","shortAddress":"Russian Federation","thumbnail":"http://localhost:3000/uploads/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg"},{"id":"6017d3efe937590ba0be1478","name":"Maureen.Murray","shortAddress":"Aruba","thumbnail":"http://localhost:3000/uploads/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg"}],"placeType":"place"},"places you may visit at least once":{"id":"646f3a6344a6b7162cc5a5ec","places":[{"id":"6017d3efe937590ba0be1477","name":"Bailee.Schneider","shortAddress":"Congo","thumbnail":"http://localhost:3000/uploads/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg"},{"id":"6017d3efe937590ba0be1478","name":"Sallie.Gibson","shortAddress":"Zambia","thumbnail":"http://localhost:3000/uploads/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg"}],"placeType":"place"}}};
         console.log(response);
       res.status(200).json(response);
 };
