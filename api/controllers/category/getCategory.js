@@ -11,14 +11,6 @@ exports.getAllCategory = (req, res, next) => {
       };
         console.log(response);
       res.status(200).json(response);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-          status: 500,
-          error: err,
-      });
-    });
 };
 
 //get details of a category by id
