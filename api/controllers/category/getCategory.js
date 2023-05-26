@@ -3,7 +3,9 @@ const helper = require("../../middleware/helper")
 
 //get all cities
 exports.getAllCategory = (req, res, next) => {
-        const data = {};
+        const data = {
+                "hello": "Hi"
+        };
 
       const response = {
         status: 200,
