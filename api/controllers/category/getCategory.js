@@ -14,36 +14,9 @@ exports.getCategoryDetails = (req, res, next) => {
   const id = req.params.categoryId;
   const page = (req.query.page && req.query.page > 0)? req.query.page: 1;
   const maxResults = 10;
-  CategoryCollection.findById(id)
-    .exec()
-    .then(category => {
-      if (category) {
-        res.status(200).json({
-          status: 200,
-          data: {
-            id: category._id,
-            name: category.name,
-            places: category.place.slice(maxResults*(page-1), maxResults*page).map(place => {
-                return {
-                  id: place.id,
-                  name: place.name,
-                  shortAddress: place.shortAddress,
-                  thumbnail: helper.getUploadUrl(req, place.thumbnail),
-                }
-            }),
-          }
-        });
-      } else {
-        res
-          .status(404)
-          .json({
-            status: 404, 
-            message: "No category found for this ID"
-          });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ error: err });
-    });
+      
+      
+  const response = {"status":200,"data":{"id":"646f3a6344a6b7162cc5a5e9","name":"Famous attraction places","places":[{"id":"6017d3efe937590ba0be1477","name":"Jed_Heller","shortAddress":"Korea","thumbnail":"http://weary-erin-abalone.cyclic.app/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg"},{"id":"6017d3efe937590ba0be1478","name":"Effertz_Gregorio","shortAddress":"Portugal","thumbnail":"http://weary-erin-abalone.cyclic.app/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg"}]}};
+        console.log(response);
+      res.status(200).json(response);
 };
