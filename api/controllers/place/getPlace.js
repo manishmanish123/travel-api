@@ -11,30 +11,9 @@ exports.getAllPlace = (req, res, next) => {
   // query.collection(Place.collection);
   // query.exec();
 
-    PlaceCollection.find()
-    .select("_id name short_address picture").lean()
-    .limit(5)
-    .exec()
-    .then(places => {
-      const response = {
-        status: 200,
-        data: places.map(doc => {
-          return {
-            id: doc._id,
-            name: doc.name,
-            short_address: doc.short_address,
-            picture: doc.picture,
-          };
-        })
-      };
+  const response = {"status":200,"data":[{"id":"646f39eb44a6b7162cc5a59f","name":"Possimus pariatur officia"},{"id":"646f39eb44a6b7162cc5a585","name":"Sunt et dolore"},{"id":"646f39eb44a6b7162cc5a58b","name":"Atque error sunt"},{"id":"646f39eb44a6b7162cc5a58d","name":"Non et voluptatem"},{"id":"646f39eb44a6b7162cc5a5a0","name":"Nobis deserunt"}]};
+        console.log(response);
       res.status(200).json(response);
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      });
-    });
 };
 
 //get details of a place by id
@@ -47,37 +26,7 @@ exports.getPlaceDetails = (req, res, next) => {
   }
   /*url redirection*/
 
-  PlaceCollection.findById(id)
-    .select().lean()
-    .exec()
-    .then(place => {
-      if (place) {
-        res.status(200).json({
-          status: 200,
-          data: {
-            id: place._id,
-            name: place.name,
-            address: place.address.address,
-            country: place.address.country.name,
-            rating: place.userFeedback.avgRating,
-            website: place.contact.website,
-            phone: place.contact.phone,
-            about: place.about.description,
-            thumbnail: helper.getUploadUrl(req, place.media.thumbnail),
-            tags: place.tags,
-          }
-        });
-      } else {
-        res
-          .status(404)
-          .json({
-            status: 404, 
-            message: "No place found for this ID"
-          });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ error: err });
-    });
+  const response = {"status":200,"data":{"id":"646f39eb44a6b7162cc5a59f","name":"Possimus pariatur officia","address":"437 Schmitt Avenue\nWest Alden, AZ 52981-1565","country":"Heard Island and McDonald Islands","rating":4,"website":"http://Veum.ca/","phone":"400-760-5752","about":"Cum blanditiis ab vel praesentium accusamus. Harum maiores enim quis voluptates sit molestiae quo repellat. Culpa aut mollitia placeat nemo repudiandae veritatis est autem. Ad qui dolorum eos sunt fuga iure.","thumbnail":"http://weary-erin-abalone.cyclic.app/1611212308372_tim-queng-y2zXlLpOU4U-unsplash.jpg","tags":["Sightseeing","Zipline","Balooning"]}};
+        console.log(response);
+      res.status(200).json(response);
 };
